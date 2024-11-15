@@ -4,6 +4,23 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="AG" projectFiles="true">
+        <itemPath>Individuo.h</itemPath>
+        <itemPath>Poblacion.h</itemPath>
+        <itemPath>ProductoPosicion.h</itemPath>
+        <itemPath>Solucion.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="Auxiliares" projectFiles="true">
+        <itemPath>Coordenada.h</itemPath>
+        <itemPath>Espacio.h</itemPath>
+        <itemPath>Pedido.h</itemPath>
+        <itemPath>Producto.h</itemPath>
+        <itemPath>Vehiculo.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Funciones" projectFiles="true">
+        <itemPath>Funciones.h</itemPath>
+        <itemPath>Rutas.h</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +29,23 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="AG" projectFiles="true">
+        <itemPath>Individuo.cpp</itemPath>
+        <itemPath>Poblacion.cpp</itemPath>
+        <itemPath>ProductoPosicion.cpp</itemPath>
+        <itemPath>Solucion.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="Auxiliares" projectFiles="true">
+        <itemPath>Coordenada.cpp</itemPath>
+        <itemPath>Espacio.cpp</itemPath>
+        <itemPath>Pedido.cpp</itemPath>
+        <itemPath>Producto.cpp</itemPath>
+        <itemPath>Vehiculo.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Funciones" projectFiles="true">
+        <itemPath>Funciones.cpp</itemPath>
+        <itemPath>Rutas.cpp</itemPath>
+      </logicalFolder>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -36,6 +70,50 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="Coordenada.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Coordenada.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Espacio.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Espacio.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Funciones.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Funciones.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Individuo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Individuo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Pedido.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Pedido.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Poblacion.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Poblacion.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Producto.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Producto.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ProductoPosicion.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ProductoPosicion.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Rutas.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Rutas.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Solucion.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Solucion.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Vehiculo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Vehiculo.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -59,6 +137,50 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Coordenada.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Coordenada.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Espacio.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Espacio.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Funciones.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Funciones.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Individuo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Individuo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Pedido.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Pedido.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Poblacion.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Poblacion.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Producto.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Producto.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ProductoPosicion.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ProductoPosicion.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Rutas.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Rutas.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Solucion.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Solucion.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Vehiculo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Vehiculo.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
