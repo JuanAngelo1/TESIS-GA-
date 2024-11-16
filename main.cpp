@@ -24,6 +24,8 @@ using namespace std;
 
 int main(int argc, char** argv) {
     
+    srand(static_cast<unsigned>(time(0))); // Inicializa el generador de números aleatorios
+
     vector<Vehiculo> listaVehiculos = obtenerVehiculos();
     vector<Producto> productosBase = obtenerProductosBase();
     vector<int> cantidad = {1, 0, 0, 1,   // Refrigeradoras (cuatro)
@@ -50,8 +52,10 @@ int main(int argc, char** argv) {
     Coordenada tiendaOrigen = Coordenada(-12.077275894793303, -77.09255117444374);
     optimizarRuta(productosCargar,tiendaOrigen.x,tiendaOrigen.y);
     
+    //Parametros fitness
+    double coefEsta=0.2,coefApilamiento=0.3 ,coefProximidad= 0.4,coefAccesibilidad=0.2; 
+    
     //Parametros AG
-
     int tamPoblacion=10;
     int numGeneraciones=20;
     double pmut=0.2;
@@ -61,8 +65,8 @@ int main(int argc, char** argv) {
 
     Poblacion poblacion;
     
-    poblacion.iniciarPoblacion(tamPoblacion,cantProd);
-    
+    poblacion.iniciarPoblacion(tamPoblacion,productosCargar,maxX,maxY);
+    poblacion.calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
 
     for(int i = 0 ; i < numGeneraciones ; i++){
         

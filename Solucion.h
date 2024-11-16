@@ -100,7 +100,7 @@ public:
         return penalizacionTotal;
     }
 
-    void calcularFitness(Vehiculo& vehiculo, double coefEsta, double coefApilamiento, double coefProximidad, double coefAccesibilidad,int debug) {
+    void calcularFitness(Vehiculo& vehiculo, double coefEsta, double coefApilamiento, double coefProximidad, double coefAccesibilidad) {
         double fitness = 0;
 
         // Desbalance de peso

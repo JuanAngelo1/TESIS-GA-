@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include "Individuo.h"
+#include "Producto.h"
 using namespace std;
 
 class Poblacion {
@@ -34,11 +35,31 @@ public:
     vector<Individuo> getIndividuos() const { return individuos; }
     
     
-    void iniciarPoblacion(int numIndividuos,int cantProductos){
-        //Se debería inicializar cada uno de los individuos
-        //Llamar a su propio metodo de Individuo para crearle su cromosoma
-        //Y asignar su solucion de manera random
+    void iniciarPoblacion(int numIndividuos,vector<Producto> productos,double maxX,double maxY){
+        individuos.clear();
+        setTamanoPoblacion(numIndividuos);
         
+        for(int i=0;i<numIndividuos;i++){
+            Individuo individuo;
+            
+            individuo.iniciarCromosoma(productos,maxX,maxY);
+            
+            //Se debe validar que el cromosoma sea una solución valida, sino cambiar orientacion productos
+//            individuo.validarSolucion();
+            
+            individuos.push_back(individuo);
+            
+        }
+        
+        //actualizarMejorFitness();
+        
+    }
+    
+    void calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,double coefProximidad, double coefAccesibilidad){
+        
+        for(int i=0;i<tamanoPoblacion;i++){
+            individuos[i].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
+        }
         
     }
 

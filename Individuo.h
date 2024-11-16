@@ -13,6 +13,7 @@
 #include <vector>
 #include "ProductoPosicion.h"
 #include "Solucion.h"
+#include "Producto.h"
 using namespace std;
 
 class Individuo {
@@ -27,6 +28,32 @@ public:
     void setFitness(double f) {
         fitness = f;
     }
+    
+    void iniciarCromosoma(vector<Producto> prods,double maxX,double maxY){
+        cromosoma.clear();
+
+        for (int i=0;i<prods.size();i++) {
+
+            double posX = round((static_cast<double>(rand()) / RAND_MAX * maxX) * 100.0) / 100.0;  // Redondear a 2 decimales
+            double posY = round((static_cast<double>(rand()) / RAND_MAX * maxY) * 100.0) / 100.0;
+
+            ProductoPosicion productoPosicionado(prods[i].getIdProducto(),prods[i], posX, posY, 0); // z inicializado a 0
+            cromosoma.push_back(productoPosicionado);
+
+        }
+        
+    }
+    
+    void calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,
+                            double coefProximidad, double coefAccesibilidad){
+        
+        solucion.calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
+        
+        setFitness(solucion.getFitness());
+    }
+    
+    
+    
     
 };
 

@@ -14,12 +14,13 @@ using namespace std;
 
 class ProductoPosicion {
 public:
+    int idProducto;
     Producto producto;  // Producto a cargar
     double x,y,z;
 
 public:
-    ProductoPosicion(Producto prod, double posX, double posY,double posZ) 
-        : producto(prod), x(posX), y(posY),z(posZ) {}
+    ProductoPosicion(int id,Producto prod, double posX, double posY,double posZ) 
+        : idProducto(id), producto(prod), x(posX), y(posY),z(posZ) {}
     
 
 };
