@@ -31,6 +31,7 @@ public:
     double getFitness() const { return fitness; }    
     void setFitness(double f) { fitness = f;}
     
+    
     void iniciarCromosoma(vector<Producto> prods,double maxX,double maxY){
         cromosoma.clear();
 

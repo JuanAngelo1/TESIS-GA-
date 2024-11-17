@@ -6,6 +6,7 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="AG" projectFiles="true">
         <itemPath>Individuo.h</itemPath>
+        <itemPath>Padres.h</itemPath>
         <itemPath>Poblacion.h</itemPath>
         <itemPath>ProductoPosicion.h</itemPath>
         <itemPath>Solucion.h</itemPath>
@@ -31,6 +32,7 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="AG" projectFiles="true">
         <itemPath>Individuo.cpp</itemPath>
+        <itemPath>Padres.cpp</itemPath>
         <itemPath>Poblacion.cpp</itemPath>
         <itemPath>ProductoPosicion.cpp</itemPath>
         <itemPath>Solucion.cpp</itemPath>
@@ -85,6 +87,10 @@
       <item path="Individuo.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Individuo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Padres.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Padres.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Pedido.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -152,6 +158,10 @@
       <item path="Individuo.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Individuo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Padres.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Padres.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Pedido.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -19,6 +19,7 @@
 #include "Rutas.h"
 #include "Pedido.h"
 #include "Poblacion.h"
+#include "Padres.h"
 
 using namespace std;
 
@@ -60,20 +61,35 @@ int main(int argc, char** argv) {
     int numGeneraciones=20;
     double pmut=0.2;
     
-    string metodoSeleccion="Roulette";
+    string metodoSeleccion="Torneo";
     string tipoCruce="Onepoint";
-
+    string tipoMutacion="Position";
+    
+    int tamTorneo=2;
     Poblacion poblacion;
     
     poblacion.iniciarPoblacion(tamPoblacion,productosCargar,vehiculo,maxX,maxY);
     poblacion.calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
 
-    for(int i = 0 ; i < numGeneraciones ; i++){
+    for(int i = 0 ; i < 1 ; i++){
         
+        vector<Padres> matingPool;
         
-        
+        // Crear el mating pool
+        for (int j = 0; j < tamPoblacion / 2; ++j) {
+            Padres padres;
+            if (metodoSeleccion == "Torneo") {
+                padres = poblacion.seleccionarPadresTorneo(tamTorneo);
+            } else if (metodoSeleccion == "Ruleta") {
+                padres = poblacion.seleccionarPadresRuleta();
+            }
+
+//            padres.imprimirPadres();
+
+            matingPool.emplace_back(padres); // Añadir al mating pool
+
+            }
     }
-    
     
     return 0;
 }

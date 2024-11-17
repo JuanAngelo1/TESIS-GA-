@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Espacio.o \
 	${OBJECTDIR}/Funciones.o \
 	${OBJECTDIR}/Individuo.o \
+	${OBJECTDIR}/Padres.o \
 	${OBJECTDIR}/Pedido.o \
 	${OBJECTDIR}/Poblacion.o \
 	${OBJECTDIR}/Producto.o \
@@ -92,6 +93,11 @@ ${OBJECTDIR}/Individuo.o: Individuo.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Individuo.o Individuo.cpp
+
+${OBJECTDIR}/Padres.o: Padres.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Padres.o Padres.cpp
 
 ${OBJECTDIR}/Pedido.o: Pedido.cpp
 	${MKDIR} -p ${OBJECTDIR}
