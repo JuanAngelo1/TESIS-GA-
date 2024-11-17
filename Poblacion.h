@@ -21,13 +21,10 @@ private:
     double mejorFitness;               // Fitness del mejor individuo actual
     
 public:
-    
-    
-    
     //Setters
-    void setMejorFitness(double mejorFitness){ mejorFitness = mejorFitness; }
-    void setIndividuos(vector<Individuo> individuos) { individuos = individuos; }
-    void setTamanoPoblacion(int tamanoPoblacion) { tamanoPoblacion = tamanoPoblacion; }
+    void setMejorFitness(double fitness){ mejorFitness = fitness; }
+    void setIndividuos(vector<Individuo> indis) { individuos = indis; }
+    void setTamanoPoblacion(int tam) { tamanoPoblacion = tam; }
     
     //Getters
     double getMejorFitness() const { return mejorFitness; }
@@ -35,9 +32,9 @@ public:
     vector<Individuo> getIndividuos() const { return individuos; }
     
     
-    void iniciarPoblacion(int numIndividuos,vector<Producto> productos,Vehiculo& vehiculo,double maxX,double maxY){
+    void iniciarPoblacion(int numIndividuos,vector<Producto>& productos,Vehiculo& vehiculo,double maxX,double maxY){
         individuos.clear();
-        int i=0,intentos=0,maxIntentos=100;
+        int i=0,intentos=0,maxIntentos=10;
         bool valida;
         setTamanoPoblacion(numIndividuos);
         
@@ -46,10 +43,11 @@ public:
             
             individuo.iniciarCromosoma(productos,maxX,maxY);
             
-            //Se debe validar que el cromosoma sea una solución valida, sino cambiar orientacion productos
+            //Se debe validar que el cromosoma sea una solución valida
             valida=individuo.validarSolucion(productos,vehiculo);
             
             if(valida){
+//                cout<<"Valida"<<endl;
                 individuos.push_back(individuo);
                 i++;
                 intentos=0;
@@ -62,8 +60,10 @@ public:
     
     void calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,double coefProximidad, double coefAccesibilidad){
         for(int i=0;i<tamanoPoblacion;i++){
-            individuos[i].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
-        }      
+            individuos[i].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);           
+        } 
+        
+
     }
 
 

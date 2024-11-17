@@ -11,7 +11,11 @@
 #include "Vehiculo.h"
 #include "Pedido.h"
 #include "Producto.h"
+#include "Espacio.h"
+#include "Coordenada.h"
+#include "ProductoPosicion.h"
 #include <fstream>
+#include <map>
 
 using namespace std;
 
@@ -32,5 +36,6 @@ bool cabeEnLimitesVehiculo(double , double , Producto& , Vehiculo& );
 ResultadoEspacio buscarEspacioDisponible(map<Coordenada, Espacio>& , Producto& , double , double ,Vehiculo& );
 bool hayColision(double , double , double , double , double , double , double , double );
 void crearNuevoEspacio(map<Coordenada, Espacio>& , Producto& , double , double , double , double );
+void imprimirEspaciosSolucion(map<Coordenada, Espacio>& );
 
 #endif /* FUNCIONES_H */

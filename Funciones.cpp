@@ -10,6 +10,7 @@
 #include <cstring>
 #include <fstream>
 #include <vector>
+#include <map>
 
 #include "Funciones.h"
 #include "Coordenada.h"
@@ -183,6 +184,8 @@ bool crearPrimerEspacio(map<Coordenada, Espacio>& espacios, vector<Producto>& pr
 
     Coordenada coordenada(posX, posY);
     espacios.emplace(coordenada, nuevoEspacio);
+    
+    return encontrado;
 }
     
 bool cabeEnLimitesVehiculo(double posX, double posY, Producto& producto, Vehiculo& vehiculo) {
@@ -287,4 +290,36 @@ void crearNuevoEspacio(map<Coordenada, Espacio>& espacios, Producto& producto,
 
     Coordenada coordAjustada(posX, posY);
     espacios.emplace(coordAjustada, nuevoEspacio);
+}
+
+void imprimirEspaciosSolucion(map<Coordenada, Espacio>& espaciosSolucion)  {
+    
+    for (const pair<const Coordenada, Espacio>& par : espaciosSolucion) {
+        const Coordenada& coord = par.first;
+        const Espacio& espacio = par.second;
+
+        // Imprimir las coordenadas del espacio
+        cout << "Espacio en Coordenada (" << coord.x << ", " << coord.y << "):\n";
+
+        // Crear una copia de la pila de productos para iterar
+        stack<Producto*> copiaPila = espacio.getPilaDeProductos();
+        int productoNum = 1;
+        
+        // Recorrer e imprimir cada producto en la pila
+        while (!copiaPila.empty()) {
+            Producto* producto = copiaPila.top();
+            cout << "  Producto " << productoNum++ << ": "
+                      << "ID = " << producto->getIdProducto() << ", "
+                      << "Nombre = " << producto->getNombre() << ", "
+                      << "Peso = " << producto->getPeso() << " kg, "
+                      << "Volumen = " << producto->getVolumen() << " m3\n";
+            copiaPila.pop();  // Desapilar el producto
+        }
+
+        if (productoNum == 1) {
+            cout << "  (Sin productos apilados en este espacio)\n";
+        }
+        
+        cout << "----------------------------------\n";
+    }
 }
