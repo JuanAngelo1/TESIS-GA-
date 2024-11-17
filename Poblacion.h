@@ -35,32 +35,35 @@ public:
     vector<Individuo> getIndividuos() const { return individuos; }
     
     
-    void iniciarPoblacion(int numIndividuos,vector<Producto> productos,double maxX,double maxY){
+    void iniciarPoblacion(int numIndividuos,vector<Producto> productos,Vehiculo& vehiculo,double maxX,double maxY){
         individuos.clear();
+        int i=0,intentos=0,maxIntentos=100;
+        bool valida;
         setTamanoPoblacion(numIndividuos);
         
-        for(int i=0;i<numIndividuos;i++){
+        while(i<numIndividuos && intentos<maxIntentos){
             Individuo individuo;
             
             individuo.iniciarCromosoma(productos,maxX,maxY);
             
             //Se debe validar que el cromosoma sea una solución valida, sino cambiar orientacion productos
-//            individuo.validarSolucion();
+            valida=individuo.validarSolucion(productos,vehiculo);
             
-            individuos.push_back(individuo);
+            if(valida){
+                individuos.push_back(individuo);
+                i++;
+                intentos=0;
+            }else
+                intentos++;
             
         }
-        
-        //actualizarMejorFitness();
-        
+        cout<<"Indivudos Inicializados"<<endl;
     }
     
     void calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,double coefProximidad, double coefAccesibilidad){
-        
         for(int i=0;i<tamanoPoblacion;i++){
             individuos[i].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
-        }
-        
+        }      
     }
 
 

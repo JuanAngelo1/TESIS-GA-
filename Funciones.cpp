@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <cstring>
 #include <fstream>
+#include <vector>
 
 #include "Funciones.h"
 #include "Coordenada.h"
@@ -16,6 +17,7 @@
 #include "Producto.h"
 #include "Rutas.h"
 #include "Vehiculo.h"
+#include "ProductoPosicion.h"
 
 using namespace std;
 
@@ -132,4 +134,157 @@ Vehiculo SeleccionarVehiculo(Pedido ped, vector<Vehiculo> lista){
     }
 
     return vehiculoSeleccionado;
+}
+
+
+bool crearPrimerEspacio(map<Coordenada, Espacio>& espacios, vector<Producto>& productos, Vehiculo& vehiculo, ProductoPosicion &gen) {
+        
+    ProductoPosicion prodPosi=gen;
+
+    Producto& producto = productos[prodPosi.getIdProducto() - 1];
+
+    double posX = prodPosi.getX();
+    double posY = prodPosi.getY();
+
+
+    // Intentar colocar el producto dentro de los límites del vehículo en cada orientación posible
+    bool encontrado = false;
+    for (int i = 0; i < 4; ++i) { // Máximo 4 orientaciones posibles
+        if (cabeEnLimitesVehiculo(posX, posY, producto, vehiculo)) {
+            encontrado = true;
+            break;
+        }
+        producto.cambiarOrientacion();
+
+        // Actualizar coordenadas en función de la nueva orientación
+        switch (producto.getOrientacion()) {
+            case Producto::ARRIBA_DERECHA:
+                break;
+            case Producto::ARRIBA_IZQUIERDA:
+                posX -= producto.getLargo();
+                break;
+            case Producto::ABAJO_DERECHA:
+                posY -= producto.getAncho();
+                break;
+            case Producto::ABAJO_IZQUIERDA:
+                posX -= producto.getLargo();
+                posY -= producto.getAncho();
+                break;
+        }
+    }
+
+    if (!encontrado) {
+        return encontrado;
+    }
+
+    // Crear un nuevo espacio con la altura y posición final del producto
+    Espacio nuevoEspacio(vehiculo.getAlto(), posX, posY, 0, 0);
+    nuevoEspacio.agregarProducto(&producto);
+
+    Coordenada coordenada(posX, posY);
+    espacios.emplace(coordenada, nuevoEspacio);
+}
+    
+bool cabeEnLimitesVehiculo(double posX, double posY, Producto& producto, Vehiculo& vehiculo) {
+    switch (producto.getOrientacion()) {
+        case Producto::ARRIBA_DERECHA:
+            return posX + producto.getLargo() <= vehiculo.getLargo() && posY + producto.getAncho() <= vehiculo.getAncho();
+        case Producto::ARRIBA_IZQUIERDA:
+            return posX - producto.getLargo() >= 0 && posY + producto.getAncho() <= vehiculo.getAncho();
+        case Producto::ABAJO_DERECHA:
+            return posX + producto.getLargo() <= vehiculo.getLargo() && posY - producto.getAncho() >= 0;
+        case Producto::ABAJO_IZQUIERDA:
+            return posX - producto.getLargo() >= 0 && posY - producto.getAncho() >= 0;
+        default:
+            return false;
+    }
+}
+
+ResultadoEspacio buscarEspacioDisponible(map<Coordenada, Espacio>& espacios, Producto& producto, double posX, double posY,Vehiculo& vehiculo) {
+    
+    if (!cabeEnLimitesVehiculo(posX, posY, producto, vehiculo)) {
+        bool encontrado = false;
+        for (int i = 0; i < 4; ++i) {
+            producto.cambiarOrientacion();
+            if (cabeEnLimitesVehiculo(posX, posY, producto, vehiculo)) {
+                encontrado = true;
+                break;
+            }
+        }
+        if (!encontrado) {
+            return ESPACIO_INVALIDO;
+        }
+    }
+
+    switch (producto.getOrientacion()) {
+        case Producto::ARRIBA_IZQUIERDA:
+            posX -= producto.getLargo(); // Mover hacia la izquierda
+            break;
+        case Producto::ABAJO_DERECHA:
+            posY -= producto.getAncho(); // Mover hacia abajo
+            break;
+        case Producto::ABAJO_IZQUIERDA:
+            posX -= producto.getLargo(); // Mover hacia la izquierda
+            posY -= producto.getAncho(); // Mover hacia abajo
+            break;
+        case Producto::ARRIBA_DERECHA:
+            // No se realiza ajuste
+            break;
+    }
+
+    for (pair<const Coordenada, Espacio>& entry : espacios) {
+        Coordenada coordExistente = entry.first;
+        Espacio& espacioExistente = entry.second;
+
+        if (hayColision(coordExistente.x, espacioExistente.getLargo(), coordExistente.y, espacioExistente.getAncho(), 
+                posX, producto.getLargo(), posY, producto.getAncho())) {
+
+            if (espacioExistente.esApilable(&producto)) {
+                espacioExistente.agregarProducto(&producto);
+                return PUDO_APILAR; 
+            } else {
+                return NO_SE_PUDO_APILAR;  // No se pudo apilar el producto por restricciones
+            }
+        }
+    }
+
+    return NO_HAY_COLISION; 
+}
+
+bool hayColision(double xExistente, double largoExistente, double yExistente, double anchoExistente, 
+             double xNuevo, double largoNuevo, double yNuevo, double anchoNuevo) {
+    // Verificar si las coordenadas del nuevo espacio caen dentro de las dimensiones del espacio existente
+    bool colisionX = (xNuevo < (xExistente + largoExistente)) && ((xNuevo + largoNuevo) > xExistente);
+    bool colisionY = (yNuevo < (yExistente + anchoExistente)) && ((yNuevo + anchoNuevo) > yExistente);
+
+    // Si hay colisión en ambos ejes, retornamos true
+    return colisionX && colisionY;
+}
+
+void crearNuevoEspacio(map<Coordenada, Espacio>& espacios, Producto& producto,
+                       double posX, double posY, double posZ, double alturaVehiculo) {
+
+    switch (producto.getOrientacion()) {
+        case Producto::ARRIBA_DERECHA:
+            break;
+        case Producto::ARRIBA_IZQUIERDA:
+            posX -= producto.getLargo(); 
+            break;
+        case Producto::ABAJO_DERECHA:
+            posY -= producto.getAncho();
+            break;
+        case Producto::ABAJO_IZQUIERDA:
+            posX -= producto.getLargo();
+            posY -= producto.getAncho(); 
+            break;
+    }
+
+    Espacio nuevoEspacio(alturaVehiculo, posX, posY, posZ,0);
+    nuevoEspacio.agregarProducto(&producto);
+
+//    nuevoEspacio.setLargo(producto.getLargo());
+//    nuevoEspacio.setAncho(producto.getAncho());
+
+    Coordenada coordAjustada(posX, posY);
+    espacios.emplace(coordAjustada, nuevoEspacio);
 }

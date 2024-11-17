@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 
     Poblacion poblacion;
     
-    poblacion.iniciarPoblacion(tamPoblacion,productosCargar,maxX,maxY);
+    poblacion.iniciarPoblacion(tamPoblacion,productosCargar,vehiculo,maxX,maxY);
     poblacion.calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
 
     for(int i = 0 ; i < numGeneraciones ; i++){

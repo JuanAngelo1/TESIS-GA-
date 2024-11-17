@@ -27,4 +27,10 @@ vector <Vehiculo> obtenerVehiculos();
 vector<Producto> generarProductos(vector<Producto>& ,vector<int>& ) ;
 Vehiculo SeleccionarVehiculo(Pedido ped, vector<Vehiculo> );
 
+bool crearPrimerEspacio(map<Coordenada, Espacio>& , vector<Producto>& , Vehiculo& , ProductoPosicion &);
+bool cabeEnLimitesVehiculo(double , double , Producto& , Vehiculo& );
+ResultadoEspacio buscarEspacioDisponible(map<Coordenada, Espacio>& , Producto& , double , double ,Vehiculo& );
+bool hayColision(double , double , double , double , double , double , double , double );
+void crearNuevoEspacio(map<Coordenada, Espacio>& , Producto& , double , double , double , double );
+
 #endif /* FUNCIONES_H */
