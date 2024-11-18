@@ -19,6 +19,7 @@
 #include "Rutas.h"
 #include "Vehiculo.h"
 #include "ProductoPosicion.h"
+#include "Individuo.h"
 
 using namespace std;
 
@@ -136,7 +137,6 @@ Vehiculo SeleccionarVehiculo(Pedido ped, vector<Vehiculo> lista){
 
     return vehiculoSeleccionado;
 }
-
 
 bool crearPrimerEspacio(map<Coordenada, Espacio>& espacios, vector<Producto>& productos, Vehiculo& vehiculo, ProductoPosicion &gen) {
         
@@ -323,3 +323,14 @@ void imprimirEspaciosSolucion(map<Coordenada, Espacio>& espaciosSolucion)  {
         cout << "----------------------------------\n";
     }
 }
+
+
+
+//void validarHijos(vector<Individuo>& hijos,vector<Producto>& prods,Vehiculo& vehiculo,
+//                    double coefEsta,double coefApilamiento,double coefProximidad, double coefAccesibilidad){
+//    hijos[0].validarSolucion(prods,vehiculo);
+//    hijos[1].validarSolucion(prods,vehiculo);
+//    
+//    hijos[0].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
+//    hijos[1].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
+//}

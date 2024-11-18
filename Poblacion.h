@@ -19,20 +19,20 @@
 #include "Padres.h"
 using namespace std;
 
-mt19937 rng(static_cast<unsigned>(chrono::high_resolution_clock::now().time_since_epoch().count()));
 
 class Poblacion {
 private:
     vector<Individuo> individuos;      // Vector de individuos (soluciones)
     int tamanoPoblacion;               // Tamaño de la población
     double mejorFitness;               // Fitness del mejor individuo actual
+    Individuo mejorIndividuo;
     
 public:
     //Setters
     void setMejorFitness(double fitness){ mejorFitness = fitness; }
     void setIndividuos(vector<Individuo> indis) { individuos = indis; }
     void setTamanoPoblacion(int tam) { tamanoPoblacion = tam; }
-    
+    void setMejorIndividuo(Individuo in){mejorIndividuo=in;}
     //Getters
     double getMejorFitness() const { return mejorFitness; }
     int getTamanoPoblacion() const { return tamanoPoblacion; }
@@ -54,7 +54,6 @@ public:
             valida=individuo.validarSolucion(productos,vehiculo);
             
             if(valida){
-//                cout<<"Valida"<<endl;
                 individuos.push_back(individuo);
                 i++;
                 intentos=0;
@@ -66,8 +65,24 @@ public:
     }
     
     void calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,double coefProximidad, double coefAccesibilidad){
-        for(int i=0;i<tamanoPoblacion;i++)
-            individuos[i].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);           
+        
+        double mejorFit=-1000;
+        double fitnessActual,indice;
+        for(int i=0;i<tamanoPoblacion;i++){
+            fitnessActual= individuos[i].calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
+            if(fitnessActual>mejorFit){
+                mejorFit=fitnessActual;
+                indice=i;
+            }
+                
+        }
+        setMejorIndividuo(individuos[indice]);
+        setMejorFitness(mejorFit);  
+    }
+    
+    void imprimirSoluFinal(){
+        
+        mejorIndividuo.imprimirSolu();
     }
     
     Padres seleccionarPadresRuleta() {
@@ -152,10 +167,24 @@ public:
 
         return Padres(padre1, padre2);
     }
+    
+    vector<Individuo> seleccionarNuevaGeneracion(const vector<Individuo>& nuevaPoblacion,int tamPoblacion) {
+        
+        // Combinar la población actual con la nueva población generada
+        vector<Individuo> poblacionCombinada = individuos;
+        poblacionCombinada.insert(poblacionCombinada.end(), nuevaPoblacion.begin(), nuevaPoblacion.end());
 
+        // Ordenar la población combinada por fitness (de mayor a menor)
+        sort(poblacionCombinada.begin(), poblacionCombinada.end(), [](const Individuo& a, const Individuo& b) {
+            return a.getFitness() > b.getFitness();
+        });
 
+        // Seleccionar los mejores individuos para la nueva población
+        vector<Individuo> nuevaGeneracion(poblacionCombinada.begin(), 
+                                          poblacionCombinada.begin() + tamPoblacion);
 
-
+        return nuevaGeneracion;
+    }
 
 };
 

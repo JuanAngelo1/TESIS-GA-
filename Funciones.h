@@ -14,6 +14,7 @@
 #include "Espacio.h"
 #include "Coordenada.h"
 #include "ProductoPosicion.h"
+//#include "Individuo.h"
 #include <fstream>
 #include <map>
 
@@ -37,5 +38,6 @@ ResultadoEspacio buscarEspacioDisponible(map<Coordenada, Espacio>& , Producto& ,
 bool hayColision(double , double , double , double , double , double , double , double );
 void crearNuevoEspacio(map<Coordenada, Espacio>& , Producto& , double , double , double , double );
 void imprimirEspaciosSolucion(map<Coordenada, Espacio>& );
+
 
 #endif /* FUNCIONES_H */

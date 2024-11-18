@@ -47,6 +47,7 @@
       <logicalFolder name="f3" displayName="Funciones" projectFiles="true">
         <itemPath>Funciones.cpp</itemPath>
         <itemPath>Rutas.cpp</itemPath>
+        <itemPath>rng.h</itemPath>
       </logicalFolder>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -122,6 +123,8 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="rng.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -192,6 +195,8 @@
       <item path="Vehiculo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="rng.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

@@ -28,9 +28,17 @@ private:
     
 public:
     
+    //constructor
+    Individuo() : fitness(0.0) {}
+    Individuo(const vector<ProductoPosicion>& cromosoma)
+        : cromosoma(cromosoma), fitness(0.0) {}
+    
     double getFitness() const { return fitness; }    
     void setFitness(double f) { fitness = f;}
     
+    vector<ProductoPosicion> getCromosoma() const {
+        return cromosoma;
+    }
     
     void iniciarCromosoma(vector<Producto> prods,double maxX,double maxY){
         cromosoma.clear();
@@ -51,7 +59,10 @@ public:
         map<Coordenada, Espacio> espacios;
         double maxX = vehiculo.getLargo(); // Dimensión máxima X (largo)
         double maxY = vehiculo.getAncho(); // Dimensión máxima Y (ancho)
-
+        
+        solucion.setPesoRestante(vehiculo.getPesoMaximo());
+        solucion.setVolumenRestante(vehiculo.getVolMaximo());
+        
         // Crear primer espacio
         if (!crearPrimerEspacio(espacios, prods, vehiculo, cromosoma[0])) {
             return false;
@@ -75,6 +86,7 @@ public:
                     }
                     break; // Salir del bucle si la posición es válida
                 } else if (resultado == NO_SE_PUDO_APILAR || resultado == ESPACIO_INVALIDO) {
+//                    cout<<"Apilar"<<endl;
                     asignarNuevasCoordenadas(posX, posY, maxX, maxY);
                     cromosoma[i].setX(posX);
                     cromosoma[i].setY(posY);
@@ -82,6 +94,8 @@ public:
 
                 intentos++;
             }
+            solucion.agregarProducto(producto);
+            
 
             if (intentos >= maxIntentos) {
 //                cout << "Error: No se pudo validar el producto " << i << " después de varios intentos." << endl;
@@ -99,20 +113,42 @@ public:
 
     }
     
-    void calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,
+    double calcularFitness(Vehiculo vehiculo,double coefEsta,double coefApilamiento,
                             double coefProximidad, double coefAccesibilidad){
         
         solucion.calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
         
         setFitness(solucion.getFitness());
         
-        cout<<"Fitness: "<<solucion.getFitness()<<endl;
+        return solucion.getFitness();
+        
+//        cout<<"Fitness: "<<solucion.getFitness()<<endl;
     }
     
-    void imprimirEspacio(){
-        cout<<"?"<<endl;
+    void imprimirSolu(){
+//        solucion.imprimirProductosCargados();
+        solucion.imprimirSolu();
         solucion.imprimirEspaciosSolucion();
     }
+    
+    void imprimirCromosoma() const {
+        cout << "Cromosoma (Productos y Coordenadas):" << endl;
+        for (const auto& productoPos : cromosoma) {
+            cout << "Producto: " <<productoPos.getIdProducto()<<" "<<productoPos.getNombre() 
+                 << ", Coordenadas: (" << productoPos.getX() 
+                 << ", " << productoPos.getY() << ")" << endl;
+        }
+    }
+    
+    double validarHijos(vector<Producto>& prods,Vehiculo& vehiculo,double coefEsta,
+                            double coefApilamiento,double coefProximidad, double coefAccesibilidad){
+        this->validarSolucion(prods,vehiculo);
+
+        double fitness= this->calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
+        
+        return fitness;
+}
+
     
     
 };

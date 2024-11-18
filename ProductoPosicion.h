@@ -19,11 +19,16 @@ private:
     double x,y,z;
 
 public:
+    
     ProductoPosicion(int id,Producto prod, double posX, double posY,double posZ) 
         : idProducto(id), producto(prod), x(posX), y(posY),z(posZ) {}
     
     int getIdProducto() const {
         return idProducto;
+    }
+    
+    string getNombre() const{
+        return producto.getNombre();
     }
 
     Producto getProducto() const {

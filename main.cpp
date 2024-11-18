@@ -12,6 +12,7 @@
 #include <vector>
 #include <math.h>
 #include <ctime> 
+#include <chrono>
 
 #include "Producto.h"
 #include "Funciones.h"
@@ -20,8 +21,11 @@
 #include "Pedido.h"
 #include "Poblacion.h"
 #include "Padres.h"
+#include "rng.h"
 
 using namespace std;
+
+mt19937 rng(static_cast<unsigned>(chrono::high_resolution_clock::now().time_since_epoch().count()));
 
 int main(int argc, char** argv) {
     
@@ -33,10 +37,10 @@ int main(int argc, char** argv) {
                             1, 0, 1,      // Lavadoras (tres modelos)
                             1, 0, 0,      // Microondas (tres modelos)
                             1, 0, 0, 1,   // Televisores (cuatro modelos)
-                            1, 0, 0, 1,   // Aspiradoras (cuatro modelos)
-                            1, 0, 0, 1,   // Hornos eléctricos (cuatro modelos)
-                            1, 0, 0, 1,   // Cocinas (cinco modelos)
-                            1, 0, 1};     // Licuadoras (tres modelos)
+                            1, 0, 1, 1,   // Aspiradoras (cuatro modelos)
+                            1, 0, 1, 1,   // Hornos eléctricos (cuatro modelos)
+                            1, 0, 1, 1,   // Cocinas (cinco modelos)
+                            1, 1, 1};     // Licuadoras (tres modelos)
     vector<Producto> productosCargar = generarProductos(productosBase,cantidad);
     int cantProd=productosCargar.size();
     Pedido pedido1(1, productosCargar, 8, "alta");
@@ -57,9 +61,11 @@ int main(int argc, char** argv) {
     double coefEsta=0.2,coefApilamiento=0.3 ,coefProximidad= 0.4,coefAccesibilidad=0.2; 
     
     //Parametros AG
-    int tamPoblacion=10;
-    int numGeneraciones=20;
+    int tamPoblacion=40;
+    int numGeneraciones=30;
     double pmut=0.2;
+    
+    double fit1,fit2;
     
     string metodoSeleccion="Torneo";
     string tipoCruce="Onepoint";
@@ -71,8 +77,7 @@ int main(int argc, char** argv) {
     poblacion.iniciarPoblacion(tamPoblacion,productosCargar,vehiculo,maxX,maxY);
     poblacion.calcularFitness(vehiculo,coefEsta,coefApilamiento,coefProximidad,coefAccesibilidad);
 
-    for(int i = 0 ; i < 1 ; i++){
-        
+    for(int i = 0 ; i < numGeneraciones ; i++){
         vector<Padres> matingPool;
         
         // Crear el mating pool
@@ -82,14 +87,46 @@ int main(int argc, char** argv) {
                 padres = poblacion.seleccionarPadresTorneo(tamTorneo);
             } else if (metodoSeleccion == "Ruleta") {
                 padres = poblacion.seleccionarPadresRuleta();
-            }
-
-//            padres.imprimirPadres();
-
+            }     
             matingPool.emplace_back(padres); // Añadir al mating pool
-
+        }
+        
+        vector<Individuo> nuevaPoblacion;
+        for (const Padres &padres : matingPool) {
+            if (tipoCruce == "Onepoint") {
+                vector<Individuo> hijos = padres.crossoverOnePoint();
+                
+                hijos[0].validarHijos(productosCargar,vehiculo,coefEsta,
+                        coefApilamiento,coefProximidad,coefAccesibilidad);
+                
+                hijos[1].validarHijos(productosCargar,vehiculo,coefEsta,
+                        coefApilamiento,coefProximidad,coefAccesibilidad);
+                        
+                nuevaPoblacion.insert(nuevaPoblacion.end(), hijos.begin(), hijos.end());
+            } else if (tipoCruce == "Uniform") {
+                vector<Individuo> hijos = padres.crossoverUniform();
+                
+                hijos[0].validarHijos(productosCargar,vehiculo,coefEsta,
+                        coefApilamiento,coefProximidad,coefAccesibilidad);
+                
+                hijos[1].validarHijos(productosCargar,vehiculo,coefEsta,
+                        coefApilamiento,coefProximidad,coefAccesibilidad);
+                
+                nuevaPoblacion.insert(nuevaPoblacion.end(), hijos.begin(), hijos.end());
             }
+        }
+        
+        poblacion.calcularFitness(vehiculo, coefEsta, coefApilamiento, coefProximidad, coefAccesibilidad);
+        
+        vector<Individuo> nuevaGeneracion = poblacion.seleccionarNuevaGeneracion(nuevaPoblacion,tamPoblacion);
+        
+        poblacion.setIndividuos(nuevaGeneracion);
+        
+        cout << "Generación " << i + 1
+             << " - Mejor Fitness: " << poblacion.getMejorFitness() << endl;
     }
+    
+    poblacion.imprimirSoluFinal();
     
     return 0;
 }
